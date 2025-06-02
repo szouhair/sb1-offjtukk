@@ -34,6 +34,7 @@ export default function LoginPage() {
 
       if (error) {
         toast.error(error.message);
+        setLoading(false);
         return;
       }
 
@@ -43,11 +44,11 @@ export default function LoginPage() {
         router.push('/finance');
       } else {
         toast.error('Invalid login credentials');
+        setLoading(false);
       }
     } catch (error) {
       console.error('Login error:', error);
       toast.error('An unexpected error occurred');
-    } finally {
       setLoading(false);
     }
   };
