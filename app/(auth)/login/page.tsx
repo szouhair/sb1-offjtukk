@@ -20,20 +20,31 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
+    if (!email || !password) {
+      toast.error('Please enter both email and password');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
         toast.error(error.message);
+        setLoading(false);
         return;
       }
 
-      toast.success('Logged in successfully!');
-      router.push('/finance');
+      if (data.user) {
+        toast.success('Logged in successfully!');
+        router.refresh(); // Refresh the router to update auth state
+        router.push('/finance');
+      }
     } catch (error) {
+      console.error('Login error:', error);
       toast.error('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -60,6 +71,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={loading}
               />
             </div>
             <div className="space-y-2">
@@ -78,6 +90,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={loading}
               />
             </div>
           </CardContent>
