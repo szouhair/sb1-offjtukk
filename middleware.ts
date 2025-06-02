@@ -44,6 +44,7 @@ export async function middleware(req: NextRequest) {
   
   // Check if user is authenticated
   const { data: { session } } = await supabase.auth.getSession();
+  console.log(session);
 
   // Authentication logic for protected routes
   const isAuthRoute = req.nextUrl.pathname.startsWith('/login') || 
