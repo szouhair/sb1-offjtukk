@@ -4,10 +4,12 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Grid from '@/components/dashboard/Grid';
 import useWidgets from '@/hooks/useWidgets';
+import { useAuth } from '@/app/context/auth-context';
 
 export default function FinancePage() {
   const router = useRouter();
   const { config, loading, error, updateTabItems } = useWidgets();
+  const { user } = useAuth();
 
   // Make sure we have authenticated user
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function FinancePage() {
   }
 
   return (
+
     <Grid
       items={config.finance}
       tab="finance"
