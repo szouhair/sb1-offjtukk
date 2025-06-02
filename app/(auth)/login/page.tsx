@@ -27,21 +27,22 @@ export default function LoginPage() {
     }
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data: { session }, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
         toast.error(error.message);
-        setLoading(false);
         return;
       }
 
-      if (data.user) {
+      if (session) {
         toast.success('Logged in successfully!');
         router.refresh(); // Refresh the router to update auth state
         router.push('/finance');
+      } else {
+        toast.error('Invalid login credentials');
       }
     } catch (error) {
       console.error('Login error:', error);
