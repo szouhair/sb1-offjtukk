@@ -41,7 +41,7 @@ export default function LoginPage() {
       if (session) {
         toast.success('Logged in successfully!');
         router.refresh(); // Refresh the router to update auth state
-        router.push('/finance');
+        router.push('/dashboard/finance');
       } else {
         toast.error('Invalid login credentials');
         setLoading(false);
